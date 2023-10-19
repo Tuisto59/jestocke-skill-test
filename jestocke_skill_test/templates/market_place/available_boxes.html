@@ -1,0 +1,43 @@
+{% extends "market_place/base.html" %}
+{% load djmoney %}
+
+{% block content %}
+<h2>Available Storage Boxes</h2>
+
+<!-- Sorting Options -->
+<p>
+    Sort by:
+    <a href="?sort=price_asc">Price (Low to High)</a> |
+    <a href="?sort=price_desc">Price (High to Low)</a> |
+    <a href="?sort=surface_asc">Surface (Low to High)</a> |
+    <a href="?sort=surface_desc">Surface (High to Low)</a> |
+    <a href="?sort=address_asc">Address (Low to High)</a> |
+    <a href="?sort=address_desc">Address (High to Low)</a> |
+</p>
+<!-- Bootstrap Table for Displaying Available Boxes -->
+{{ prices }}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Surface (m²)</th>
+            <th>Prix</th>
+            <th>Propriétaire</th>
+            <th>Localisation</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for box in available_boxes %}
+
+        <tr>
+            <td>{{ box.title }}</td>
+            <td>{{ box.surface }}</td>
+            <td>{{ box.price.amount }} {{ box.price.currency }}</td>
+            <td>{{ box.owner.first_name }} {{ box.owner.last_name }}</td>
+            <td>{{ box.street_number }} {{ box.route }} {% if box.additional_address %}{{ box.additional_address }}{% endif %} {{ box.postal_code }} {{ box.city }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

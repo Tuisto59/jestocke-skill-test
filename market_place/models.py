@@ -25,7 +25,7 @@ class StorageBox(models.Model):
     slug = models.SlugField(max_length=128, editable=False, null=True, unique=True)
     description = models.TextField(_("Description"), blank=True, null=True, default="")
     surface = models.IntegerField(_("Surface (m²)"), blank=True, null=True, default=1)
-    monthly_price = MoneyField(max_digits=14, decimal_places=2, default_currency='EUR')
+    monthly_price = MoneyField(_("Prix Mensuel"), max_digits=14, decimal_places=2, default_currency='EUR', default_amount=0)
 
     street_number = models.CharField("N°", blank=True, null=True, max_length=128)
     route = models.CharField("route", blank=True, null=True, max_length=512)
