@@ -1,17 +1,12 @@
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
+from django.contrib.admin.filters import DateFieldListFilter
+from django.db.models import Q
+from django.utils.translation import gettext_lazy as _
 
 from booking.models import Booking
 from .models import StorageBox
 
-from django.contrib.admin import SimpleListFilter
-from django.utils.translation import gettext_lazy as _
-from django.db.models import Q
-
-from django import forms
-from django.contrib.admin import DateFieldListFilter
-
-from django.contrib.admin.filters import DateFieldListFilter
-from django.db.models import Q
 
 class DateRangeAvailabilityFilter(DateFieldListFilter):
     def __init__(self, *args, **kwargs):

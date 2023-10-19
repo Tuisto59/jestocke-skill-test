@@ -1,12 +1,12 @@
+import json
+
+from django.db.models import Value, CharField, F
 from django.db.models.functions import Concat
 from django.views.generic import ListView
+
 from booking.models import Booking
-from django.db.models import Q
 from market_place.models import StorageBox
-from django.http import JsonResponse
-from django.core.serializers import serialize
-from django.db.models import Value, CharField, F
-import json
+
 
 def serialize_storage_boxes(queryset):
     serialized_data = []
@@ -20,7 +20,7 @@ def serialize_storage_boxes(queryset):
                 "amount": str(box.monthly_price.amount),
                 "currency": str(box.monthly_price.currency)
             },
-            # ... add other fields as needed
+
         })
     return json.dumps(serialized_data)
 
@@ -31,26 +31,15 @@ class AvailableStorageBoxesView(ListView):
     context_object_name = 'available_boxes'
     paginate_by = 10  # Display 10 boxes per page. You can adjust this.
 
-    # def get_queryset(self):
-    #     # Exclude boxes that are already booked
-    #     booked_boxes = Booking.objects.values_list('storage_box', flat=True)
-    #     return StorageBox.objects.exclude(id__in=booked_boxes)
-
-    # def render_to_response(self, context, **response_kwargs):
-    #     qs = self.get_queryset()
-    #     data = serialize('json', qs)
-    #     return JsonResponse(data, safe=False)
-
     def get_queryset(self):
         # Exclude boxes that are already booked
         booked_boxes = Booking.objects.values_list('storage_box', flat=True)
         qs = StorageBox.objects.exclude(id__in=booked_boxes)
 
-
         print("[DEBUUUUGGGG]", str(qs[0].monthly_price.__dict__))
 
         # Sorting
-        dico_sort = {"price_asc": "price", # since we don't have price
+        dico_sort = {"price_asc": "price",  # since we don't have price
                      "price_desc": "-price",  # since we don't have price
                      "surface_asc": "surface",
                      "surface_desc": "-surface",
@@ -79,7 +68,8 @@ class AvailableStorageBoxesView(ListView):
                 # Sorting based on price
             elif sort in ["price_asc", "price_desc"]:
                 qs = list(qs)
-                prices = [{"amount": float(i.monthly_price.initial[0]), "currency": str(i.monthly_price.initial[1])} for i in qs]
+                prices = [{"amount": float(i.monthly_price.initial[0]), "currency": str(i.monthly_price.initial[1])} for
+                          i in qs]
                 indexed_qs = list(enumerate(qs))
                 indexed_qs.sort(key=lambda ix: prices[ix[0]]['amount'], reverse=(sort == "price_desc"))
                 qs = [item[1] for item in indexed_qs]
