@@ -124,3 +124,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_CURRENCY = 'EUR'
+DJANGO_SETTINGS_MODULE = "jestocke_skill_test/settings.py"
